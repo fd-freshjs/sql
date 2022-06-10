@@ -1,35 +1,28 @@
 -- @block
-DROP TABLE products;
 
--- @block
-CREATE TABLE products (
-    id serial PRIMARY KEY,
+/* 
+    создать с pkey
+    users
+    (
+        id,
+        firstname
+        lastname
+        phone
+    )
 
-    amount int NOT NULL
-    CHECK (amount > 0) DEFAULT 0,
+ */
 
-    name varchar NOT NULL,
-
-    manufacturer VARCHAR(128) NOT NULL,
-
-    UNIQUE(name, manufacturer)
+CREATE TABLE users (
+    id serial PRIMARY KEY, -- users_pkey
+    name varchar(32)
 );
 
--- @block
-INSERT INTO products (name, price) VALUES ('apple', -3.00);
-
--- @block
-ALTER TABLE products
-DROP CONSTRAINT "products_amount_check";
-
-ALTER TABLE products
-ADD CHECK (amount >= 0);
-
-
-CREATE TABLE vet_client (
+DROP TABLE user_carts;
+CREATE TABLE user_carts (
     id serial PRIMARY KEY,
-    nickname VARCHAR(32) NOT NULL CHECK(nickname != ''),
-    phone VARCHAR(32) NOT NULL CHECK(phone != ''),
-    full_name varchar(64),
-    UNIQUE(nickname, phone)
+    user_id int REFERENCES users(id) -- user_carts_user_id_fkey
 );
+
+INSERT INTO users (name) values ('Test');
+
+INSERT INTO user_carts (user_id) VALUES (1);
