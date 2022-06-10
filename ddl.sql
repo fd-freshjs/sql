@@ -19,7 +19,7 @@ ALTER TABLE products
 DROP CONSTRAINT "products_amount_check";
 
 ALTER TABLE products
-ADD CONSTRAINT "products_amount_check" CHECK (amount >= 0);
+ADD CHECK (amount >= 0);
 
 -- @block
 ALTER TABLE products
@@ -27,30 +27,23 @@ ADD COLUMN price numeric(7, 2);
 
 -- @block
 ALTER TABLE products
-DROP COLUMN price;
-
-
-
-
-
--- @block
-ALTER TABLE products
-
 DROP COLUMN price,
-
-ADD COLUMN price numeric(7, 2) CHECK(price >= 0.00),
-
-ADD CONSTRAINT "max-value" CHECK(amount < 5000);
+ADD COLUMN price numeric(7, 2) CHECK(price BETWEEN 100 AND 5000);
 
 
+INSERT INTO products (name, price) values ('1', 99);
 
+/* 
+изменить огрничение
+- добавить check(length (name) > 4)
+- удалить проверку price between и добавить новую between 100 and 50000
+ */
 
 -- @block
-ALTER TABLE products
-ALTER COLUMN price TYPE decimal(7, 2);
+ ALTER TABLE products
+ ADD CHECK(length(name) > 4);
 
-ALTER TABLE products
-
-ADD CHECK (price >= 0.00),
-
-ALTER COLUMN price SET DEFAULT 0.00;
+-- @block
+ ALTER TABLE products
+ DROP CONSTRAINT IF EXISTS "products_price_check",
+ ADD CONSTRAINT "products_price_check" CHECK(price BETWEEN 100 and 50000);
