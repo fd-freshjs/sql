@@ -8,7 +8,11 @@ CREATE TABLE products (
     amount int NOT NULL
     CHECK (amount > 0) DEFAULT 0,
 
-    name varchar NOT NULL
+    name varchar NOT NULL,
+
+    manufacturer VARCHAR(128) NOT NULL,
+
+    UNIQUE(name, manufacturer)
 );
 
 -- @block
@@ -21,29 +25,11 @@ DROP CONSTRAINT "products_amount_check";
 ALTER TABLE products
 ADD CHECK (amount >= 0);
 
--- @block
-ALTER TABLE products
-ADD COLUMN price numeric(7, 2);
 
--- @block
-ALTER TABLE products
-DROP COLUMN price,
-ADD COLUMN price numeric(7, 2) CHECK(price BETWEEN 100 AND 5000);
-
-
-INSERT INTO products (name, price) values ('1', 99);
-
-/* 
-изменить огрничение
-- добавить check(length (name) > 4)
-- удалить проверку price between и добавить новую between 100 and 50000
- */
-
--- @block
- ALTER TABLE products
- ADD CHECK(length(name) > 4);
-
--- @block
- ALTER TABLE products
- DROP CONSTRAINT IF EXISTS "products_price_check",
- ADD CONSTRAINT "products_price_check" CHECK(price BETWEEN 100 and 50000);
+CREATE TABLE vet_client (
+    id serial NOT NULL UNIQUE,
+    nickname VARCHAR(32) NOT NULL CHECK(nickname != ''),
+    phone VARCHAR(32) NOT NULL CHECK(nickname != ''),
+    full_name varchar(64),
+    UNIQUE(nickname, phone)
+);
