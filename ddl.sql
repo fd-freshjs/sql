@@ -7,82 +7,38 @@ CREATE TABLE users (
     name varchar(32)
 );
 
-CREATE TABLE user_carts (
-    id serial PRIMARY KEY,
-    user_id int REFERENCES users(id) -- user_carts_user_id_fkey
-);
-
-
--- @block
-DROP TABLE user_carts;
-
--- @block
-INSERT INTO users (id, name) values (2, 'Test');
-
-INSERT INTO user_carts (user_id) VALUES (2);
-
-
-CREATE TABLE phones (
-    id serial PRIMARY KEY,
-    value VARCHAR(24) NOT NULL UNIQUE,
-    user_id int,
-    operator_id int REFERENCES operators(id)
-);
-
-ALTER TABLE phones
-ADD FOREIGN KEY (user_id) REFERENCES users(id);
-
 /* 
     1-N
 
-    1) Бренды и товары
-    brands -> goods
-
-    2) Команды и игроки
-    teams -> players
-
-    3) Группы и студенты
-    groups -> students
+    one user -> many phones
  */
 
-/* 1) */
-CREATE TABLE brands (
-    id serial PRIMARY KEY,
-    name VARCHAR(64) NOT NULL UNIQUE CHECK(name !== ''),
+/* 1-1 */
+
+/* 1-0..1 */
+
+CREATE TABLE trainers (
+    id VARCHAR PRIMARY KEY,
+    full_name VARCHAR(64) NOT NULL CHECK(full_name != ''),
+    team_id int UNIQUE
 );
 
-CREATE TABLE goods (
-    id serial PRIMARY KEY,
-    name VARCHAR(128) NOT NULL CHECK(char_length(name) >= 4),
-    brand_id int REFERENCES brands(id)
-);
-
-/* 2) */
 CREATE TABLE teams (
     id serial PRIMARY KEY,
-    name VARCHAR(64) NOT NULL UNIQUE CHECK(name !== ''),
+    name VARCHAR(32) NOT NULL UNIQUE CHECK(char_length(name) >= 4),
+    trainer_id VARCHAR REFERENCES trainers(id)
 );
 
-CREATE TABLE players (
-    id serial PRIMARY KEY,
-    full_name VARCHAR(128) NOT NULL CHECK(char_length(name) >= 4),
-    number int NOT NULL CHECK(number >= 0),
-    team_id int REFERENCES teams(id)
-);
+INSERT INTO trainers
+(id, full_name)
+VALUES
+('123-234-345-456', 'Test Testovich');
 
-/* 3) */
-CREATE TABLE groups (
-    id serial PRIMARY KEY,
-    name VARCHAR(64) NOT NULL UNIQUE CHECK(name !== ''),
-);
+INSERT INTO teams (name, trainer_id) VALUES ('Byki', '234-234-345-345');
 
-CREATE TABLE students (
-    id serial PRIMARY KEY,
-    full_name VARCHAR(128) NOT NULL CHECK(char_length(name) >= 4),
-    group_no int NOT NULL CHECK(number >= 0),
-    group_id int REFERENCES groups(id)
-);
-
-/* 1-1 */
+UPDATE trainers
+SET team_id = 1
+WHERE -- filter
+"id" = '123-234-345-456';
 
 /* N-M */
