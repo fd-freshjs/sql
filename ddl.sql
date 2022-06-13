@@ -13,7 +13,6 @@ CREATE TABLE users (
     one user -> many phones
  */
 
-/* 1-1 */
 
 /* 1-0..1 */
 
@@ -34,11 +33,12 @@ INSERT INTO trainers
 VALUES
 ('123-234-345-456', 'Test Testovich');
 
-INSERT INTO teams (name, trainer_id) VALUES ('Byki', '234-234-345-345');
+INSERT INTO teams (name, trainer_id) VALUES ('Byki', '234-234-345-345'), ();
 
 UPDATE trainers
 SET team_id = 1
 WHERE -- filter
 "id" = '123-234-345-456';
+
 
 /* N-M */
