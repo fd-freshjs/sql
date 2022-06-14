@@ -17,20 +17,16 @@ INSERT INTO users (full_name, email, dob) VALUES (
   'Tes3t Testovich', 'test4@mail.com', '1980-02-20'
 );
 
-
 SELECT
-  *
+  concat(u.full_name, ' / ', u.email) as "Name / E-mail"
 FROM
-  users
-WHERE "E-mail" = 'test2@mail.com' -- error: column "E-mail" not found
-GROUP BY "E-mail" -- success
+  users as u
 ;
 
 SELECT
-  *
-FROM
-  (
-    SELECT *, email as "E-mail" FROM users
-  ) as e
-WHERE "E-mail" = 'test2@mail.com'
-;
+  id, full_name, extract(year from age(dob)) AS age
+FROM users;
+
+
+-- count, sum, min, max, avg
+-- GROUP BY
