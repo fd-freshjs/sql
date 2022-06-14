@@ -68,4 +68,9 @@ HAVING country = 'Chech Rep' -- FILTER (GROUPS)
   1980 | 1
  */
 
+SELECT
+  date_part('year', "dob"), count(*)
+FROM
+  users
+GROUP BY date_part('year', "dob");
 
