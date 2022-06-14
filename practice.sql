@@ -5,14 +5,27 @@
   минимум 15 записей
 
   2) найти товары цена которых больше 100
+  where price > 100
 
-  3) найти записи сортировав по цене
+  3) найти все записи сортировав по цене
+  order by price ASC
 
   4) Найти группы брендов
+  select brand
+  from products 
+  group by brand;
 
   5) найти товары бренд которых Tesla и цена меньше 20 000
+  where brand = 'Tesla' AND price < 20000
 
-  6) 
+  6) посчитать кол-во товаров для каждого бренда
+  select
+    brand, count(id) as "Count"
+  from products
+  -- WHERE
+  group by brand
+  -- HAVING 
+  order by "Count" DESC;
 
  */
 
