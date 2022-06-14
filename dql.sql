@@ -17,60 +17,20 @@ INSERT INTO users (full_name, email, dob) VALUES (
   'Tes3t Testovich', 'test4@mail.com', '1980-02-20'
 );
 
-SELECT
-*, email as "E-mail"
-FROM
-users;
-
-SELECT
-  email as "E-mail"
-FROM
-  users
-WHERE -- FILTER (table)
-  -- true AND (false OR true)
-  -- extract(year from age(dob)) >= 25
-  date_part('year', age("dob")) >= 25
-;
--- age("dob") = interval '42 years .. months .. days'
 
 SELECT
   *
 FROM
   users
-WHERE -- FILTER 1)
-  char_length(full_name) >= 5
-ORDER BY -- SORTING 2)
-  country DESC, -- high priority
-  dob ASC; -- less priority
-
-SELECT
-  country, count(id)
-FROM
-  users
-WHERE date_part('year', age("dob")) >= 18
-
-GROUP BY country
-HAVING country = 'Chech Rep' -- FILTER (GROUPS)
+WHERE "E-mail" = 'test2@mail.com' -- error: column "E-mail" not found
+GROUP BY "E-mail" -- success
 ;
 
-/* 
-  a) сгруппировать пользователей по году рождения
-  группы по годам рождения
-  1995
-  2003
-  2022
-  1980
-
-  б) посчитать кол-во полз в группах
-  1995 | 2
-  2003 | 1
-  2022 | 1
-  1980 | 1
- */
-
 SELECT
-  date_part('year', "dob"), count(*)
+  *
 FROM
-  users
-GROUP BY date_part('year', "dob");
-
+  (
+    SELECT *, email as "E-mail" FROM users
+  ) as e
+WHERE "E-mail" = 'test2@mail.com'
+;
