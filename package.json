@@ -1,0 +1,25 @@
+{
+  "name": "sql",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "node ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fd-freshjs/sql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fd-freshjs/sql/issues"
+  },
+  "homepage": "https://github.com/fd-freshjs/sql#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "pg": "^8.7.3"
+  }
+}

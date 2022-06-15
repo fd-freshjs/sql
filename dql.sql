@@ -5,28 +5,15 @@ CREATE TABLE users (
   dob date NOT NULL
 );
 
-ALTER TABLE users
-ADD COLUMN country VARCHAR(32) CHECK(country != '');
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-UPDATE users
-SET dob = '2003-03-05'
-WHERE country = 'Poland';
-
-
-INSERT INTO users (full_name, email, dob) VALUES (
-  'Tes3t Testovich', 'test4@mail.com', '1980-02-20'
+CREATE TABLE cars (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  model varchar(32) NOT NULL,
+  brand VARCHAR(32) NOT NULL,
+  UNIQUE(brand,model)
 );
 
-SELECT
-  concat(u.full_name, ' / ', u.email) as "Name / E-mail"
-FROM
-  users as u
-;
+INSERT INTO cars (model, brand) VALUES ('Model S', 'Tesla');
 
-SELECT
-  id, full_name, extract(year from age(dob)) AS age
-FROM users;
-
-
--- count, sum, min, max, avg
--- GROUP BY
+/* создайте таблицу самолеты с uuid типом для pkey */
