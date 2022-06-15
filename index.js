@@ -18,7 +18,7 @@ const createUserValue = (full_name, email, dob, country, tall) => `
 const getUsersFromServer = async () => {
   const { data: { results: users } } = await axios.get('https://randomuser.me/api/?results=50&seed=fresh');
 
-  const userValues = users.map(user => 
+  const userValues = users.map(user =>
     createUserValue(
       `${user.name.first} ${user.name.last}`,
       user.email,

@@ -2,7 +2,9 @@ CREATE TABLE users (
   id serial PRIMARY KEY,
   full_name varchar NOT NULL,
   email varchar(32) NOT NULL UNIQUE,
-  dob date NOT NULL
+  dob date NOT NULL,
+  tall numeric(3, 2)
+    NOT NULL CHECK(tall BETWEEN 0.2 AND 3.00) DEFAULT 0.3
 );
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
