@@ -1,4 +1,5 @@
 require("dotenv").config();
+const axios = require("axios");
 const { Client } = require("pg");
 
 const client = new Client();
@@ -6,14 +7,16 @@ const client = new Client();
 const createSQLString = (string) => `'${string}'`;
 
 const createUserValue = (full_name, email, dob, country, tall) => `
-(${createSQLString(full_name)},
-${createSQLString(email)},
-${createSQLString(dob)},
-${createSQLString(country)},
-${tall.toFixed(2)})`;
+(
+  ${createSQLString(full_name)},
+  ${createSQLString(email)},
+  ${createSQLString(dob)},
+  ${createSQLString(country)},
+  ${tall.toFixed(2)}
+)`;
 
 const getUsersFromServer = async () => {
-  const { data: { results: users } } = await axios.get('/users');
+  const { data: { results: users } } = await axios.get('https://randomuser.me/api/?results=50');
 
   const userValues = users.map(user => 
     createUserValue(
@@ -21,7 +24,7 @@ const getUsersFromServer = async () => {
       user.email,
       user.dob.date,
       user.location.state,
-      Math.random() * 3 + 0.2
+      Math.random() * 2 + 0.2
     )
   );
 
@@ -39,12 +42,15 @@ const getUsersFromServer = async () => {
 
   const userValues = await getUsersFromServer();
 
-  await client.query(`
-    INSERT INTO users
-    (full_name, email, dob, country, tall)
-    VALUES
-    ${userValues.join(', ')};
-  `);
+  const queryString = `
+  INSERT INTO users
+  (full_name, email, dob, country, tall)
+  VALUES
+  ${userValues.join(', ')};
+  `;
+  console.log(queryString);
+
+  await client.query(queryString);
 
   await client.end();
   process.exit();
