@@ -49,7 +49,7 @@ CREATE TABLE phones_to_orders (
   amount int NOT NULL CHECK(amount > 0) DEFAULT 1,
   PRIMARY KEY(order_id, phone_id)
 );
-
+DELETE FROM phones_to_orders;
 
 INSERT INTO phones
 (model, brand, price, amount)

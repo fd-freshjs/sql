@@ -11,9 +11,13 @@ const client = new Client();
 
   // await migrate(client);
 
-  function insertRandomPhone(orderId) {
-    const randomIndex = Math.floor(Math.random() * phones.length)
-    const randomPhone = phones[randomIndex];
+  async function insertRandomPhone(orderId, usedIndexes) {
+    let randomIndex = Math.floor(Math.random() * phones.rows.length);
+    if (usedIndexes.includes(randomIndex)){
+      randomIndex = Math.floor(Math.random() * phones.rows.length);
+    }
+    const randomPhone = phones.rows[randomIndex];
+    usedIndexes.push(randomIndex);
 
     const randomAmount = Math.floor(Math.random() * 25);
 
@@ -26,16 +30,22 @@ const client = new Client();
   }
 
 
-  const users = await getUsers();
-  const phones = await getPhones();
+  const users = await client.query(`
+    SELECT * FROM users;
+  `);
+  const phones = await client.query(`
+    SELECT * FROM phones;
+  `);
 
-  for (const user of users) {
+  console.log(users);
+
+  for (const user of users.rows) {
     const userId = user.id;
 
     const ordersCount = Math.floor(Math.random() * 10);
 
     for (let i = 0; i < ordersCount; i++) {
-      const newOrder = await client.query(`
+      const { rows: [newOrder] } = await client.query(`
         INSERT INTO orders
         (user_id)
         VALUES
@@ -44,9 +54,10 @@ const client = new Client();
       `);
 
       const randomPhonesInOrder = Math.floor(Math.random() * 5);
+      const usedIndexes = [];
 
       for (let i = 0; i < randomPhonesInOrder; i ++) {
-        insertRandomPhone(newOrder.id);
+        await insertRandomPhone(newOrder.id, usedIndexes);
       }
     }
   }
