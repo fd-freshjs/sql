@@ -1,7 +1,8 @@
 const axios = require("axios");
 const { createSQLString } = require("./utils");
 
-const createUserStringRow = (full_name, email, dob, country, tall) => `
+const createUserStringRow = (full_name, email, dob, country, tall) => {
+return `
 (
   ${createSQLString(full_name)},
   ${createSQLString(email)},
@@ -9,7 +10,8 @@ const createUserStringRow = (full_name, email, dob, country, tall) => `
   ${createSQLString(country)},
   ${tall.toFixed(2)}
 )`;
-module.exports.createUserValue = createUserStringRow;
+}
+module.exports.createUserStringRow = createUserStringRow;
 
 
 const getUsersFromServer = async () => {
