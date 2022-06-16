@@ -19,7 +19,7 @@ const client = new Client();
     const randomPhone = phones.rows[randomIndex];
     usedIndexes.push(randomIndex);
 
-    const randomAmount = Math.floor(Math.random() * 25);
+    const randomAmount = 1 + Math.floor(Math.random() * 24);
 
     await client.query(`
       INSERT INTO phones_to_orders
