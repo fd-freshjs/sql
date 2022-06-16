@@ -18,10 +18,14 @@ INSERT INTO goods (name, stock_amount)
 VALUES ('stool', 5),
     ('table', 10),
     ('candelabre', 15);
-INSERT INTO orders (address)
-VALUES ('Zaporizha'),
+
+INSERT INTO orders
+    (address)
+VALUES
+    ('Zaporizha'),
     ('Kiev'),
     ('Ney York');
+
 INSERT INTO goods_to_orders
 VALUES (1, 2, 5);
 INSERT INTO goods_to_orders
