@@ -55,6 +55,10 @@ WHERE date_part('year', age("dob")) BETWEEN 30 AND 40
 ;
 
 /* 
+  avg, count, sum, max, min
+ */
+
+/* 
   avg - среднее значение колонки
 
   Средний рост пользователей
@@ -68,22 +72,36 @@ SELECT
 FROM users;
 
 SELECT
-  avg( age("dob") )
+  avg( date_part('year', age("dob") ) )
 FROM users;
 
 
 SELECT
-  avg( date_part('year', age("dob") ) ), count(*)
+  country,
+  avg( tall ) as avg_country_tall,
+  count(*) as rows
 FROM users
 -- WHERE country = 'England' OR country = 'Canada' OR country = 'Ireland'
 GROUP BY country
 HAVING country = 'Zeeland' OR country = 'Ontario' OR country = 'Bremen';
 
 
-/* 
 SELECT
-  sum(price * amount)
+  brand, sum(price)
 FROM products
-WHERE name = 'Yabloko';
+GROUP BY brand;
 
+
+/* 
+  min
+  max
  */
+
+SELECT
+  brand,
+  min(price),
+  avg(price),
+  max(price)
+FROM products
+-- WHERE price > 100
+GROUP BY brand;
