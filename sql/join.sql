@@ -31,3 +31,30 @@ FROM orders AS o
   JOIN users AS u ON o.user_id = u.id
 WHERE user_id = 58
 GROUP BY email;
+
+/* извлечь все данные пользователей и кол-во заказов */
+
+SELECT count(o.id), u.*
+FROM users as u
+  INNER JOIN orders as o ON u.id = o.user_id
+GROUP BY u.id
+
+/* извлечь все данные пользователей у которых кол-во заказов выше среднего */
+SELECT * FROM
+(
+  SELECT count(o.id) as "count", u.*
+  FROM users as u
+    INNER JOIN orders as o ON u.id = o.user_id
+  GROUP BY u.id
+) as order_count
+WHERE count > avg("count");
+
+/* 
+  users.id   <=   orders.user_id
+ */
+
+/* 
+  Извлечь модель самого популярного телефона
+  p_to_o.amount
+ */
+
