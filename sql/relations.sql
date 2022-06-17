@@ -81,3 +81,31 @@ VALUES
 
   Общая Стоимость всех телефонов каждого бренда
  */
+
+
+
+SELECT avg(price) FROM phones
+WHERE brand = 'Huawei';
+
+
+SELECT sum(amount) FROM phones_to_orders;
+
+
+SELECT user_id, count(*) FROM orders
+GROUP BY user_id;
+
+SELECT brand, sum(price * amount) FROM phones
+GROUP BY brand;
+
+/* 
+
+Стоимость всех моделей телефонов в диапазоне их цен от 2 до 5 тыс
+ */
+SELECT sum(price * amount) FROM phones
+WHERE price BETWEEN 2000 AND 5000;
+
+/* 
+  Максимальное количество купленных телефонов в заказе
+ */
+
+SELECT max(amount) FROM phones_to_orders;
