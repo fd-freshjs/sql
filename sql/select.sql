@@ -13,7 +13,7 @@ WITH user_ids AS
 )
 SELECT * FROM users
 WHERE id IN (SELECT user_id FROM user_ids);
-
+-- =
 
 /*  */
 
@@ -41,3 +41,25 @@ SET tall = (
 
 WHERE id <= 60
 RETURNING *;
+
+
+/* 
+
+  IN - проверяет равенство значения любому варианту (true/false)
+  ANY - проеряет условие оператора для любого из вариантов (true/false)
+  EXISTS - проверяет что в табл выражении есть хотя бы одна строка (true/false)
+  ALL 
+
+ */
+
+SELECT * FROM users
+WHERE full_name ~* ANY ( VALUES ('.*lie '), ('David ') );
+
+SELECT * FROM users
+WHERE full_name ~* ALL ( VALUES ('.*lie '), (' MAdsen') );
+
+SELECT * FROM users
+WHERE EXISTS (
+  SELECT user_id FROM orders
+  WHERE address IS NOT NULL
+)
