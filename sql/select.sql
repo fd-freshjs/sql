@@ -93,3 +93,5 @@ FROM
 ORDER BY user_orders_count DESC
 LIMIT 1
 ;
+
+SELECT DISTINCT brand FROM phones;
