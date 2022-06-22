@@ -63,3 +63,33 @@ WHERE EXISTS (
   SELECT user_id FROM orders
   WHERE address IS NOT NULL
 )
+
+
+/* 
+  оконные функции
+
+  SELECT id, avg() over()
+ */
+
+/* 
+  найти средний чек и ид заказов среди телефонов марки Xiaomi
+ */
+SELECT
+  pto.order_id,
+  avg(p.price * pto.amount) over(PARTITION BY brand) as avg_price
+FROM "phones" as p
+  JOIN "phones_to_orders" as pto ON p.id = pto.phone_id
+WHERE p.brand = 'Xiaomi';
+
+/* 
+  найти почту юзера с максимальным кол-вом заказов
+ */
+SELECT
+  email,
+  count(o.id) over(partition by u.id) as user_orders_count
+FROM
+  users as u
+  JOIN orders as o ON u.id = o.user_id
+ORDER BY user_orders_count DESC
+LIMIT 1
+;

@@ -4,7 +4,8 @@ AS
   SELECT users.id as user_id, created_at as order_ts
     FROM users
     JOIN orders ON user_id = users.id
-  WHERE date_part('month', created_at) = date_part('month', CURRENT_DATE);
+  WHERE date_part('month', created_at) = date_part('month', CURRENT_DATE)
+  ;
 
 SELECT * FROM month_report;
 
@@ -17,9 +18,12 @@ SELECT * FROM month_report;
 
 SELECT * FROM test */
 
+WITH subquery as (
+  SELECT user_id from orders where ...
+)
 UPDATE orders
 SET created_at = '2022-03-16 00:00:00'
-WHERE user_id = 58;
+WHERE user_id IN ( SELECT * FROM subquery );
 
 
 /* MATERIALIZED VIEW - кэшированное табличное представление */
@@ -77,12 +81,14 @@ CREATE TABLE user_cars (
 CREATE FUNCTION user_exists(user_id int) RETURNS BOOLEAN
 AS $$
   BEGIN
-    RETURN QUERY SELECT 
-      CASE
-        WHEN count(*) > 0 THEN TRUE
-        ELSE FALSE
-      END
-    FROM users WHERE id = user_id;
+    RETURN QUERY
+      SELECT
+        CASE
+          WHEN count(*) > 0 THEN TRUE
+          ELSE FALSE
+        END
+      FROM users
+      WHERE id = user_id;
   END;
 $$
 LANGUAGE plpgsql;
