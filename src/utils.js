@@ -1,1 +1,3 @@
-module.exports.createSQLString = (string) => `'${string}'`;
+module.exports.createSQLString = (string) => {
+  return `'${string}'`
+};

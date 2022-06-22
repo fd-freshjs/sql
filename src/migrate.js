@@ -9,7 +9,7 @@ module.exports.migrate = async (client) => {
     );
   `);
 
-  const migrations = await client.query(`
+  const { rows: migrations } = await client.query(`
       SELECT * FROM migrations;
   `);
 
