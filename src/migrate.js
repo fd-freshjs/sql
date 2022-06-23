@@ -1,7 +1,8 @@
 const fs = require('fs/promises');
 const path = require('path');
+const client = require('./models');
 
-module.exports.migrate = async (client) => {
+module.exports.migrate = async () => {
   await client.query(`
     CREATE TABLE IF NOT EXISTS migrations
     (
@@ -19,7 +20,8 @@ module.exports.migrate = async (client) => {
     const filepath = path.resolve(__dirname, './migrations/', fileName);
     const module = require(filepath);
 
-    if (!migrations.includes(fileName)) {
+    if (!migrations.find(m => m.name === fileName)) {
+      console.log('Running migration - ', fileName);
       await module.up(client);
       await client.query(`
         INSERT INTO migrations

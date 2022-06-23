@@ -1,12 +1,8 @@
 require("dotenv").config();
-const { Client } = require("pg");
 const { migrate } = require("./migrate");
-
-const client = new Client();
+const client = require("./models");
 
 (async () => {
-  await client.connect();
-
   // await userQueries(client);
 
   await migrate(client);
