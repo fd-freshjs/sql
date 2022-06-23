@@ -34,6 +34,7 @@ User.init({
 }, {
   tableName: 'users',
   sequelize: client,
+  timestamps: false,
 });
 
 module.exports = User;

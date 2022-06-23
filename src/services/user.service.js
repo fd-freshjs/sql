@@ -7,7 +7,12 @@ module.exports.createUser = async () => {
 }
 
 module.exports.getUserList = async (limit, page) => {
-  
+  const foundUsers = await User.findAll({
+    limit: limit,
+    offset: (page - 1) * limit,
+  });
+
+  return foundUsers;
 }
 
 module.exports.getUserById = async (userId) => {
@@ -21,17 +26,19 @@ module.exports.getUserById = async (userId) => {
     id: userId,
   } }); */
 
-  const foundUsers = await User.findAll({
+  // const foundUsers = await User.findAll({
+  //   where: {
+  //     id: userId,
+  //   }
+  // });
+
+  /* const foundUser = await User.findOne({
     where: {
       id: userId,
     }
-  });
-  // await User.findOne
-  // await User.findByPk
+  }); */
 
-  if (foundUsers.length === 0) {
-    return null;
-  }
+  const user = await User.findByPk(userId);
 
-  return foundUsers[0];
+  return user;
 }

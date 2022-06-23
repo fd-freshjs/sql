@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { getList, getById } = require("../controllers/user.cont");
 
+// path /api/users
 const userRouter = Router();
 
 // get list
