@@ -1,8 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
-const client = require('./models');
 
-module.exports.migrate = async () => {
+module.exports.migrate = async (client) => {
   await client.query(`
     CREATE TABLE IF NOT EXISTS migrations
     (
