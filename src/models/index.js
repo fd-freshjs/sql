@@ -1,10 +1,7 @@
-const { Client } = require("pg");
+const { Sequelize } = require("sequelize");
 const dbconfig = require('../config/db.js');
-const { migrate } = require("../migrate.js");
 
-const client = new Client(dbconfig);
-
-client.connect();
-migrate(client);
+const { database, user, password, ...restOptions } = dbconfig;
+const client = new Sequelize(database, user, password, restOptions);
 
 module.exports = client;
