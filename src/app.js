@@ -7,6 +7,7 @@ app.use(express.json());
 
 // app.use('/public', express.static('/public'));
 
+// path /
 app.use('/api', router);
 
 module.exports = app;
