@@ -1,18 +1,34 @@
+const { DataTypes } = require("sequelize");
 
 module.exports.up = async function up (client) {
-  await client.query(`
-    CREATE TABLE brands (
-        id serial PRIMARY KEY,
-        name VARCHAR(32) NOT NULL UNIQUE
-    );
+  const queryInterface = client.getQueryInterface();
 
-    INSERT INTO brands (name)
-    SELECT DISTINCT brand FROM phones;
+  await queryInterface.createTable('brands', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING(32),
+      allowNull: false,
+      unique: true,
+    },
+  });
 
-    ALTER TABLE phones
-    ADD FOREIGN KEY (brand) REFERENCES brands(name)
-    ON DELETE CASCADE;
-  `);
+  const brands = await queryInterface.select(null, 'brands');
+
+  await queryInterface.bulkInsert('brands', [...brands]);
+
+  await queryInterface.addConstraint('brands', {
+    type: 'FOREIGN KEY',
+    fields: ['brand'],
+    references: {
+      table: 'brands',
+      field: 'name',
+    },
+    onDelete: 'CASCADE',
+  });
 }
 
 module.exports.down = async function down () {

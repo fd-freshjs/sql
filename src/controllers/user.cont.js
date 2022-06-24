@@ -1,10 +1,10 @@
 const { getUserById, getUserList } = require("../services/user.service");
 
-module.exports.createUser = async () => {};
+module.exports.createUser = async (req, res, next) => {};
 
-module.exports.updateUser = async () => {};
+module.exports.updateUser = async (req, res, next) => {};
 
-module.exports.deleteUser = async () => {};
+module.exports.deleteUser = async (req, res, next) => {};
 
 module.exports.getById = async (req, res, next) => {
   console.log(req.params.id);

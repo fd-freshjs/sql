@@ -13,6 +13,9 @@ User.init({
   full_name: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      notEmpty: true
+    },
   },
   email: {
     type: DataTypes.STRING,
@@ -32,8 +35,8 @@ User.init({
     allowNull: false,
   },
 }, {
-  tableName: 'users',
   sequelize: client,
+  tableName: 'users',
   timestamps: false,
 });
 
